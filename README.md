@@ -1,7 +1,7 @@
-# Kalshi Market Calibration Project
+# Prediction Market Calibration
 
 ## Project Goal
-This project studies whether market-implied probabilities from Kalshi are well calibrated.
+This project studies whether prediction-market-implied probabilities are well calibrated using public market data APIs, with Kalshi as the initial data source.
 
 ## Main Questions
 - When a market implies 70% probability, does that outcome happen about 70% of the time?
