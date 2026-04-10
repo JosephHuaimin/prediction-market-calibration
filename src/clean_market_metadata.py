@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pandas as pd
 
-INPUT_PATH = Path("data/raw/kalshi_historical_markets_page1.json")
+INPUT_PATH = Path("data/raw/kalshi_historical_markets_sample.json")
 OUTPUT_PATH = Path("data/processed/kalshi_market_metadata.csv")
 
 with open(INPUT_PATH, "r", encoding="utf-8") as file:
