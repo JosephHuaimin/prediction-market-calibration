@@ -1,5 +1,13 @@
 # Prediction Market Calibration
 
+> Pilot study of 42 resolved Kalshi binary markets. Near close, implied probabilities were directionally informative at the extremes, but mid-range bins appeared less well calibrated.
+
+## What This Repo Does
+
+- Downloads public historical market data from Kalshi.
+- Extracts final pre-close probabilities from historical candlestick data.
+- Evaluates calibration with probability bins, Brier score, and visualizations.
+
 ## Overview
 
 Prediction markets generate prices that can be interpreted as probabilities. This project studies whether those implied probabilities are actually well calibrated: when a market implies a high probability, does the event happen at a similarly high rate, and when it implies a low probability, does it usually fail to happen?
@@ -7,10 +15,6 @@ Prediction markets generate prices that can be interpreted as probabilities. Thi
 I built this project as a small research pipeline using public Kalshi historical data. The project began with market metadata, but after diagnosing the raw price fields, I found that metadata prices were not reliable enough for direct calibration analysis. I then switched to historical candlestick data and extracted a final pre-close probability for each market before resolution.
 
 The current version is a pilot study on a filtered sample of resolved binary markets with usable candlestick histories.
-
-## Project Goal
-
-This project studies whether prediction-market-implied probabilities are well calibrated using public market data APIs, with Kalshi as the initial data source.
 
 ## Research Question
 
@@ -28,11 +32,7 @@ If prediction market prices are well calibrated, they can be useful not only for
 4. Switched to historical candlestick data.
 5. Selected a pilot sample of active markets with valid open and close times.
 6. Extracted the final available pre-close probability from candlestick price data.
-7. Evaluated calibration using:
-   - probability bins,
-   - actual outcome frequency,
-   - Brier score,
-   - a calibration curve.
+7. Evaluated calibration using probability bins, actual outcome frequency, Brier score, and visualizations.
 
 ## Preliminary Findings
 
@@ -49,12 +49,45 @@ Using a pilot sample of 42 resolved binary markets with usable candlestick histo
 
 These early results suggest that market-implied probabilities in this filtered sample may be directionally informative, especially at the extremes, but calibration in the middle range is less reliable.
 
+These findings are best interpreted as a proof-of-concept rather than a definitive statement about overall market calibration.
+
+### Methodology Caveat
+
+The current pilot uses the final available candle before close, which may not correspond to the exact same time-to-resolution across markets.
+
 ### Limitations
 
 - The current pilot sample is small at **42 markets**.
 - The sample is filtered to markets with usable candlestick histories, so it is not a random sample of all markets.
 - Some market types and low-information markets were excluded.
 - These findings should be treated as preliminary rather than definitive.
+
+## Visuals
+
+### Calibration Scatter Plot
+
+![Calibration scatter plot](results/calibration_curve_sample.png)
+
+### Pre-close Probability Histogram
+
+![Pre-close probability histogram](results/preclose_probability_histogram_sample.png)
+
+## How To Run
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python src/fetch_markets.py
+python src/clean_market_metadata.py
+python src/filter_binary_markets.py
+python src/select_candlestick_sample.py
+python src/fetch_candlesticks_sample.py
+python src/extract_preclose_probabilities.py
+python src/compute_calibration_metrics.py
+python src/plot_calibration_curve.py
+python src/plot_preclose_probability_histogram.py
+```
 
 ## Project Structure
 
